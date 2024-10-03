@@ -1,0 +1,100 @@
+
+<link rel="stylesheet" href="/dashboard.css">
+
+<main>
+<div class="dash-header">
+    
+<h1>Dashboard</h1>
+<button><a href="/admin/logout">Logout</a></button>
+</div>
+
+<div class="table-container">
+    <button class="dash-add" onclick="AddOpenPopup()" >ADD USER</button>
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td>{{@index}}</td>
+                <td>{{this.email}}</td> 
+                <td>
+                      <button class="edit-btn" onclick="OpenPopup( '{{this.id}}','{{this.email}}')">Edit</button>
+
+                    <button class="delete-btn" onclick="DeleteUser('{{this.id}}')">Delete</button>
+
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add User Popup -->
+
+<div id="addpopup" >
+            <form action="/admin/add-user" method="post">
+            <h1>Add User</h1>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+           <div class="popup-btns">
+             <button>submit</button>
+             <button onclick="AddClosePopup()" class="close-btn" >Close</button>
+           </div>
+            </form>
+    </div>
+
+<!-- Edit User Popup -->
+
+ <div id="popup">
+            <form action="/admin/edit-user" method="post">
+            <h1>Edit User</h1>
+            
+            <input type="hidden" id="userId" name="id"> 
+            <label for="email">Email</label>
+            <input type="email" id="email" class="Email" name="email">
+            <label for="password">New Password</label>
+            <input type="password" id="password" name="password">
+            <div class="popup-btns">
+ <button type="submit">Save</button>
+ <button class="close-btn"  onclick="closePopup()">Close</button>
+            </div>
+           
+            </form>
+    </div>
+
+<script>
+
+  function OpenPopup(id,email){
+       document.getElementById('popup').style.display = "block";
+        document.querySelector('.Email').value = email; 
+         document.getElementById('userId').value = id;
+  }
+
+   function closePopup(){
+    document.getElementById('popup').style.display="none"
+  }
+
+    function AddOpenPopup(){
+       document.getElementById('addpopup').style.display = "block";
+  }
+   function AddClosePopup(){
+    document.getElementById('addpopup').style.display="none"
+  }
+  function DeleteUser(id) {
+  if (confirm("Are you sure you want to delete this user?")) {
+    window.location.href = `/admin/delete-user/${id}`;
+  }
+}
+
+
+</script>
+
+</main>

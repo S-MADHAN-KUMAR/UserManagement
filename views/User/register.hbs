@@ -1,0 +1,132 @@
+
+<link rel="stylesheet" href="/style.css">
+<main>
+    <div class="form">
+        <form action="/user/register" id="RegisterForm" method="post" novalidate >
+        <h1>User Register</h1>
+        <h4>{{message}}</h4>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email"  >
+                <span class="err-display" ></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+                <span class="err-display" ></span>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">confirm Password</label>
+                <input type="password" name="confirm-password" id="confirm-password">
+                <span class="err-display" ></span>
+            </div>
+            <button type="submit" >Register</button>
+        </form>
+    </div>
+</main>
+<script>
+    
+  document.getElementById('RegisterForm').addEventListener('submit',(e)=>{
+        e.preventDefault()
+
+    let isValid = ValidInputs();
+
+    if(isValid){
+         document.getElementById('RegisterForm').submit();
+    }
+
+
+    })
+
+function ValidInputs (){
+    let isValid = true
+
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm-password');
+
+    const emailVal = email.value.trim();
+    const passwordVal = password.value.trim();
+    const confirmPasswordVal = confirmPassword.value.trim();
+
+    //email...
+
+    if(emailVal == ''){
+        setError(email,'Email is requires')
+        isValid = false
+    }else if (!validEmail(emailVal)){
+        setError(email,'Enter a valid email')
+        isValid = false;
+    }else{
+        setSuccess(email)
+    }
+
+    //password.....
+
+     if(passwordVal == ''){
+        setError(password,'Password is requires')
+        isValid = false
+    }
+    else if(passwordVal.length >= 5){
+         setError(password,'Password must have atleast 5 letters ')
+        isValid = false;
+    }
+    else if (!validPassword(passwordVal)){
+        setError(password,'Password must contain these letters [#$@!$%]')
+        isValid = false;
+    }
+    else{
+        setSuccess(password)
+    }
+
+    //confirm-Password....
+
+    if(confirmPasswordVal === ''){
+        setError(confirmPassword,'Password is requires')
+        isValid =false
+    }
+    else if (passwordVal !== confirmPasswordVal){
+        setError(confirmPassword,"Password doesn't match")
+    }
+    else{
+        setSuccess(confirmPassword)
+    }
+
+    return isValid
+
+}
+
+function setError(element , msg){
+    const parent = element.parentElement;
+    const errDisplay = parent.querySelector('.err-display');
+
+    errDisplay.innerText = msg;
+    parent.classList.add('error')
+    parent.classList.remove('success')
+}
+
+function setSuccess(element){
+    const parent = element.parentElement;
+    const errDisplay = parent.querySelector('.err-display');
+
+    errDisplay.innerText = 'Success !';
+    parent.classList.add('success')
+    parent.classList.remove('error')
+}
+
+function validPassword(password){
+     const specialChars = /[#$@!$%]/;
+     return specialChars.test(password)
+}
+
+function validEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()\[\]\\.,;:\s@"]+\.)+[^<>()\[\]\\.,;:\s@"]{2,})$/i;
+    return re.test(String(email).toLowerCase());
+}
+
+</script>
+
+
+
+
+

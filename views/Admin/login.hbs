@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="/style.css">
+<main>
+    <div class="form">
+        <form action="/admin/login" method="post" id="adminLoginForm">
+        <h1>Admin Login</h1>
+        <h4>{{message}}</h4>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email"  >
+                <span class="err-display" ></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+                <span class="err-display" ></span>
+            </div>
+        <button type="submit" >Submit</button>
+        </form>
+    </div>
+</main>
+ <script>
+
+
+      document.getElementById('adminLoginForm').addEventListener('submit' , (e)=>{
+        e.preventDefault()
+
+        let isValid = validInputs()
+
+        if(isValid){
+           document.getElementById('adminLoginForm').submit()
+        }
+
+      })
+
+      function validInputs(){
+        
+        let isValid =true
+
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+
+        const emailVal = document.getElementById('email').value.trim();
+        const passwordVal = document.getElementById('password').value.trim();
+
+       if(emailVal == ''){
+        setError(email,'Email is requires')
+        isValid = false
+        }
+        else if (!validEmail(emailVal)){
+        setError(email,'Enter a valid email')
+        isValid = false;
+        }
+        else{
+        setSuccess(email)
+        }
+         if(passwordVal === ''){
+            setError(password,"Password is required");
+            isValid = false
+        }
+        else{
+            setSuccess(password)
+        }
+
+        return isValid
+      }
+      
+function setError(element , msg){
+    const parent = element.parentElement;
+    const errDisplay = parent.querySelector('.err-display');
+
+    errDisplay.innerText = msg;
+    parent.classList.add('error')
+    parent.classList.remove('success')
+}
+
+function setSuccess(element){
+    const parent = element.parentElement;
+    const errDisplay = parent.querySelector('.err-display');
+
+    errDisplay.innerText = 'Success !';
+    parent.classList.add('success')
+    parent.classList.remove('error')
+}
+
+function validEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()\[\]\\.,;:\s@"]+\.)+[^<>()\[\]\\.,;:\s@"]{2,})$/i;
+    return re.test(String(email).toLowerCase());
+}
+
+    </script>
