@@ -10,4 +10,5 @@ Router.post('/edit-user',adminAuth.checkSession,adminController.editUser)
 Router.post('/add-user',adminAuth.checkSession,adminController.addUser)
 Router.get('/delete-user/:id',adminAuth.checkSession,adminController.deleteUser)
 Router.get('/logout',adminAuth.checkSession,adminController.logout)
+Router.post('/search',adminController.searchUser)
 module.exports = Router

@@ -22,7 +22,6 @@ body{
     align-items: center;
     font-family: "Kanit", sans-serif;
     color: aliceblue;
-    overflow: hidden;
 }
 
 #popup {
@@ -37,6 +36,16 @@ body{
     display: none;
 }
 #addpopup {
+    position: fixed;
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: none;
+}
+#searchForm{
     position: fixed;
     z-index: 1; 
     left: 0;
@@ -63,7 +72,6 @@ form{
        -webkit-backdrop-filter: blur( 20px );
        border-radius: 10px;
        border: 1px solid rgba( 255, 255, 255, 0.18 );
-
 }
 
 form label{
@@ -127,7 +135,7 @@ form button{
     left: 0;
     justify-content: space-between;
     flex-direction: row;
-    align-items: center;
+    align-items:center ;
     background: #000000;
     margin-top: auto;
     padding: 10px 30px;
@@ -152,7 +160,7 @@ form button{
     border-radius: 5px;
 }
 .table-container{
-    background: #000000;
+   background: black;
     position: fixed;
     top: 50px;
     left: 0px;
@@ -198,6 +206,18 @@ table td{
     margin-top: 30px;
     cursor: pointer;
 }
+.dash-search{
+    border: none;
+    color: rgb(0, 0, 0);
+    font-size: 22px;
+    font-weight: 500;
+    background: rgb(4, 0, 255);
+   font-family: "Kanit", sans-serif;
+    padding: 10px 60px;
+    border-radius: 5px;
+    margin-top: 30px;
+    cursor: pointer;
+}
 table th,tr{
     border: 1px solid rgb(255, 0, 157);
 }
@@ -223,4 +243,11 @@ table th,tr{
     padding:5px 20px ;
     border-radius: 5px;
     cursor: pointer;
+}
+body{
+    overflow: auto;
+}
+#searchForm form{
+ display: flex;
+ flex-direction: column;
 }

@@ -1,4 +1,5 @@
 const AdminModel = require("../Model/AdminModel");
+const userSchema = require('../Model/UserModel')
 const bcrypt = require("bcrypt");
 const UserModel = require("../Model/UserModel");
 const { removeAllListeners } = require("nodemon");
@@ -104,4 +105,30 @@ const logout = async(req,res)=>{
   res.redirect('/admin/login')
 }
 
-module.exports = {loadLogin,adminLogin,loadDasboard,editUser,deleteUser,addUser,logout}
+const searchUser = async (req, res) => {
+  try {
+    const { searchEmail } = req.body;
+
+    console.log(req.body)
+
+ 
+    const trimmedEmail = searchEmail.trim();
+
+    console.log(trimmedEmail);
+
+    const user = await userSchema.find({ email: trimmedEmail });
+
+    console.log(user);
+
+    if (user) {
+      res.render('admin/dashboard', { users: user });
+    } else {
+      res.redirect('/admin/dashboard');
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+module.exports = {loadLogin,adminLogin,loadDasboard,editUser,deleteUser,addUser,logout,searchUser}

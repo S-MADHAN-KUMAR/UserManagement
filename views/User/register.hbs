@@ -67,7 +67,7 @@ function ValidInputs (){
         setError(password,'Password is requires')
         isValid = false
     }
-    else if(passwordVal.length >= 5){
+    else if(passwordVal.length < 5){
          setError(password,'Password must have atleast 5 letters ')
         isValid = false;
     }
@@ -85,8 +85,17 @@ function ValidInputs (){
         setError(confirmPassword,'Password is requires')
         isValid =false
     }
+     else if(confirmPasswordVal.length < 5){
+         setError(confirmPassword,'Password must have atleast 5 letters ')
+        isValid = false;
+    }
     else if (passwordVal !== confirmPasswordVal){
         setError(confirmPassword,"Password doesn't match")
+        isValid=false
+    }
+    else if (!validPassword(confirmPasswordVal)){
+        setError(confirmPassword,'Password must contain these letters [#$@!$%]')
+        isValid = false;
     }
     else{
         setSuccess(confirmPassword)
