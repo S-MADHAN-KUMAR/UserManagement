@@ -14,34 +14,42 @@
       <button class="dash-add" onclick="AddOpenPopup()">ADD USER</button>
     <button class="dash-search" onclick="SearchOpenPopup()">SEARCH USER</button>
     </div>
+    {{#if users}}
     <table border="1" cellpadding="10" cellspacing="0">
         <thead>
             <tr>
                 <th>No</th>
-                <th>Email</th>
+                <th>Name</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
+   
             {{#each users}}
             <tr>
                 <td>{{@index}}</td>
-                <td>{{this.email}}</td> 
+                <td>{{this.name}}</td> 
                 <td style="display: flex; flex-direction:row">
-                    <button class="edit-btn" onclick="OpenPopup('{{this.id}}', '{{this.email}}')">Edit</button>
+                    <button class="edit-btn" onclick="OpenPopup('{{this.id}}', '{{this.email}}','{{this.name}}')">Edit</button>
                     <button class="delete-btn" onclick="DeleteUser('{{this.id}}')">Delete</button>
                 </td>
             </tr>
             {{/each}}
+
+         
         </tbody>
+        
     </table>
+       {{else}}
+            <h1 style="color: rgb(255, 0, 0);font-family: Silkscreen', sans-serif;">No Usera Found !!!</h1>
+            {{/if}}
 </div>
 
 <!-- Search User Popup -->
 <div id="searchForm">
   <form action="/admin/search" method="post">
   <h1>Search User</h1>
-    <input type="email" id="searchEmail" name="searchEmail" placeholder="Search..." >
+    <input type="text" id="searchName" name="searchName" placeholder="Search a Name..." >
     <div class="popup-btns">
        <button type="submit">Search</button>
       <button type="button" onclick="SearchClosePopup()" class="close-btn">Close</button>
@@ -53,6 +61,8 @@
 <div id="addpopup">
   <form action="/admin/add-user" method="post">
     <h1>Add User</h1>
+     <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
     <label for="email">Email</label>
     <input type="email" id="email" name="email" required>
     <label for="password">Password</label>
@@ -69,6 +79,8 @@
   <form action="/admin/edit-user" method="post">
     <h1>Edit User</h1>
     <input type="hidden" id="userId" name="id"> 
+    <label for="name">Name</label>
+    <input type="text" id="name" class="Name" name="name" required>
     <label for="email">Email</label>
     <input type="email" id="email" class="Email" name="email" required>
     <label for="password">New Password</label>
@@ -81,8 +93,9 @@
 </div>
 
 <script>
-  function OpenPopup(id, email) {
+  function OpenPopup(id, email,name) {
     document.getElementById('popup').style.display = "block";
+    document.querySelector('.Name').value = name; 
     document.querySelector('.Email').value = email; 
     document.getElementById('userId').value = id;
   }

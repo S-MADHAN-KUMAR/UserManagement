@@ -4,7 +4,7 @@ const saltround = 10;
 
 const registerUser  = async (req,res)=>{
     try{
-        const {email,password} = req.body
+        const {name,email,password} = req.body
 
         const user = await userSchema.findOne({email})
 
@@ -16,6 +16,7 @@ const registerUser  = async (req,res)=>{
         const hassedPassword = await bcrypt.hash(password,saltround);
 
         const newUser = new userSchema({
+            name,
             email,
             password:hassedPassword
         })
@@ -69,6 +70,7 @@ const loadLogin = (req,res)=>{
 }
 
 const loadHome = (req, res) => {
+
         res.render('user/home'); 
 };
 

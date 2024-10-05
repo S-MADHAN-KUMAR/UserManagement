@@ -2,17 +2,27 @@
 <link rel="stylesheet" href="/style.css">
 <main>
     <div class="form">
-        <form action="/user/register" id="RegisterForm" method="post" novalidate >
+        <form action="/user/register" id="RegisterForm" method="post" class="form-register" novalidate >
         <h1>User Register</h1>
         <h4>{{message}}</h4>
+   <div style="display: flex; flex-direction:row; justify-content:space-between">
+         <div>
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email"  >
+                <label for="email">Name</label>
+                <input type="text" name="name" id="name"  >
                 <span class="err-display" ></span>
             </div>
+            
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password">
+                <span class="err-display" ></span>
+            </div>
+        </div>
+          <div>
+           <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email"  >
                 <span class="err-display" ></span>
             </div>
             <div class="form-group">
@@ -20,7 +30,11 @@
                 <input type="password" name="confirm-password" id="confirm-password">
                 <span class="err-display" ></span>
             </div>
+          </div>
+
+   </div>
             <button type="submit" >Register</button>
+            <a style="font-size:14px; text-decoration: none; text-align:center; color:rgb(182, 27, 174)" href="/user/login">Already a User? Please Login</a>
         </form>
     </div>
 </main>
@@ -41,13 +55,29 @@
 function ValidInputs (){
     let isValid = true
 
+     const name = document.getElementById('name');
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirm-password');
 
+    const nameVal = name.value.trim();
     const emailVal = email.value.trim();
     const passwordVal = password.value.trim();
     const confirmPasswordVal = confirmPassword.value.trim();
+
+     //email...
+
+    if(nameVal == ''){
+        setError(name,'Name is requires')
+        isValid = false
+    }
+    else if(!validateName(nameVal)){
+        setError(name,'Enter a valid name')
+        isValid = false;
+    }
+    else{
+        setSuccess(name)
+    }
 
     //email...
 
@@ -121,6 +151,11 @@ function setSuccess(element){
     errDisplay.innerText = 'Success !';
     parent.classList.add('success')
     parent.classList.remove('error')
+}
+
+function validateName(name) {
+    const regex = /^[a-zA-Z0-9_]{3,16}$/;
+    return regex.test(name);
 }
 
 function validPassword(password){

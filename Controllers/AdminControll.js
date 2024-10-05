@@ -2,7 +2,6 @@ const AdminModel = require("../Model/AdminModel");
 const userSchema = require('../Model/UserModel')
 const bcrypt = require("bcrypt");
 const UserModel = require("../Model/UserModel");
-const { removeAllListeners } = require("nodemon");
 
 const loadLogin = (req,res)=>{
     res.render('admin/login')
@@ -21,7 +20,6 @@ const adminLogin = async (req,res)=>{
 
     req.session.admin = true;
 
-    const users =await UserModel.find({})
 
     res.redirect('/admin/dashboard')
 
@@ -50,11 +48,11 @@ const loadDasboard = async (req,res)=>{
 
 const editUser = async (req,res)=>{
   try{
-    const { id, email, password } = req.body;
+    const { id, email, password ,name} = req.body;
 
     const hassedPassword = await bcrypt.hash(password,10)
 
-    await UserModel.findByIdAndUpdate({_id:id},{email,password:hassedPassword})
+    await UserModel.findByIdAndUpdate({_id:id},{email,password:hassedPassword, name})
     
     res.redirect('/admin/dashboard');
 
@@ -81,11 +79,12 @@ const addUser = async(req,res)=>{
   try{
 
 
-    const {email,password}=req.body
+    const {name,email,password}=req.body
 
     const hassedPassword = await bcrypt.hash(password,10)
 
     const newUser = new UserModel({
+      name,
       email,
       password:hassedPassword
     })
@@ -107,18 +106,11 @@ const logout = async(req,res)=>{
 
 const searchUser = async (req, res) => {
   try {
-    const { searchEmail } = req.body;
-
-    console.log(req.body)
-
+    const { searchName } = req.body;
  
-    const trimmedEmail = searchEmail.trim();
+    const trimmedName = searchName.trim();
 
-    console.log(trimmedEmail);
-
-    const user = await userSchema.find({ email: trimmedEmail });
-
-    console.log(user);
+    const user = await userSchema.find({ name: trimmedName });
 
     if (user) {
       res.render('admin/dashboard', { users: user });
